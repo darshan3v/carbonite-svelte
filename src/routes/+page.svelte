@@ -13,7 +13,7 @@
 
 	const CONTRACT_ID: string = 'carbonite.testnet';
 	const NETWORK_TESTNET: NetworkId = 'testnet';
-
+	// export const ssr = false;
 	let walletConfig: WalletConfig = {
 		network: NETWORK_TESTNET,
 		contractId: CONTRACT_ID,
