@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 
-    import {NearWallet} from '$src/wallet/near-wallet';
+	import { NearWallet } from '$src/wallet/near-wallet';
 
-	import {Buffer} from 'buffer';
+	import { Buffer } from 'buffer';
 
 	// importing types
 
@@ -15,37 +15,37 @@
 	const NETWORK_TESTNET: NetworkId = 'testnet';
 
 	let walletConfig: WalletConfig = {
-        network: NETWORK_TESTNET,
+		network: NETWORK_TESTNET,
 		contractId: CONTRACT_ID,
 		createAccessKeyFor: CONTRACT_ID
-    }
+	};
 
-	let nearWallet: NearWallet; 
+	let nearWallet: NearWallet;
 	let random: string;
 
-	if (browser){
+	// to check for signed in
+	let isSignedIn: boolean = false;
+
+	if (browser) {
 		window.Buffer = Buffer;
 	}
 
 	onMount(() => {
-        setuptWallet(walletConfig);
-    });
+		setuptWallet(walletConfig);
+	});
 
 	async function setuptWallet(walletConfig: WalletConfig): Promise<void> {
 		const walletSelector: WalletSelector = await NearWallet.WithWalletSelector(walletConfig);
 
 		nearWallet = new NearWallet(walletConfig, walletSelector);
 
-		const isSignedIn: boolean = await nearWallet.startUp();
-
-		// console.log(isSignedIn);
-
-		if (!isSignedIn) {
-			nearWallet.signIn();
-		}else{
-			nearWallet.signOut();
-		}
+		isSignedIn = await nearWallet.startUp();
 	}
 </script>
 
-<p>{random}</p>
+<!-- sign in and sign out button -->
+{#if !isSignedIn}
+	<button on:click={async () => nearWallet.signIn()}>Sign In</button>
+{:else}
+	<button on:click={async () => nearWallet.signOut()}>Sign Out</button>
+{/if}
