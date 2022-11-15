@@ -11,7 +11,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$src: 'src',
-			$static: 'static'
+			$static: 'static',
 		},
 	}
 };

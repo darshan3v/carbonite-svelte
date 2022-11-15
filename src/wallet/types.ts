@@ -9,6 +9,8 @@ export type Balance = U128;
 
 export type Timestamp = u64;
 
+export type Skills = string;
+
 export type ContractId = AccountId;
 
 export type TaskId = string;
@@ -21,8 +23,8 @@ export type AccountId = string;
 export type U128 = string;
 export type U64 = string;
 
-// add checks to validate
-export type u64 = bigint;
+// in future pass a string u64, now our actual limit is 2^53
+export type u64 = number;
 
 export type Option<T> = T | null;
 
@@ -50,7 +52,7 @@ export type viewMethods =
 
 // init -> new
 export type writeMethods =
-	| 'init'
+	| 'new'
 	| 'approve_ft_tokens'
 	| 'whitelist_companies'
 	| 'edit_company_details'

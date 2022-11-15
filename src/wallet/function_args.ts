@@ -13,9 +13,9 @@ import type {
 
 // view calls
 
-export type nft_metadata_args = Record<string, never>; // means empty object
+// export type nft_metadata_args = Record<string, never>; // means empty object
 
-export type nft_total_supply_args = Record<string, never>;
+// export type nft_total_supply_args = Record<string, never>;
 
 export type nft_tokens_args = {
 	from_index: Option<U128>;
@@ -36,7 +36,7 @@ export type nft_token_args = {
 	account_id: AccountId;
 };
 
-export type get_owner_args = Record<string, never>;
+// export type get_owner_args = Record<string, never>;
 
 export type get_recognised_skills_list_args = {
 	from_index: Option<U128>;

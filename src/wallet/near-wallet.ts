@@ -1,7 +1,6 @@
 // wallet selector options
 
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
-import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 // import { setupDefaultWallets } from "@near-wallet-selector/default-wallets";
 // import { setupHereWallet } from "@near-wallet-selector/here-wallet";
 // import { setupNightlyConnect } from "@near-wallet-selector/nightly-connect";
@@ -24,12 +23,12 @@ import { setupModal } from '@near-wallet-selector/modal-ui';
 // other imports
 
 import { providers } from 'near-api-js';
-import type { JsonRpcProvider } from 'near-api-js/lib/providers';
 
 import { setupWalletSelector } from '@near-wallet-selector/core';
 
 // import types
 import type { WalletSelector, Wallet, NetworkId } from '@near-wallet-selector/core';
+import type { JsonRpcProvider } from 'near-api-js/lib/providers';
 import type {
 	ContractId,
 	Gas,
@@ -40,36 +39,73 @@ import type {
 	AccountId
 } from '$src/wallet/types';
 
+// import constants
+import { NO_DEPOSIT, THIRTY_TGAS } from './constants';
+import { get_all_tasks_list, get_approved_ft_tokens_list, get_company_details, get_owner, get_recognised_skills_list, get_submissions_for_task_list, get_submission_details, get_tasks_from_company_list, get_task_details, get_whitelisted_companies_list, nft_metadata, nft_supply_for_owner, nft_token, nft_tokens, nft_tokens_for_owner, nft_total_supply } from './view';
+import { accept_invite, add_task_in_near_token, approve_ft_tokens, claim_refund, edit_company_details, extend_deadline, init, nft_mint, ping_task, select_task, submit_task, whitelist_companies } from './write';
+import { test_contract } from './test';
+
 export type WalletConfig = {
 	network: NetworkId;
 	contractId: ContractId;
-	createAccessKeyFor: Option<ContractId>; // optional
+	createAccessKeyFor: Option<ContractId>; // Default contractId = this.walletConfig.contractId
 };
 
 type viewCallArgs = {
-	contractId: Option<ContractId>; // if null use contractId from wallet
+	contractId?: ContractId; // Default contractId = this.walletConfig.contractId
 	methodName: viewMethods;
-	args: object;
+	args?: object;
 };
 
 type writeCallArgs = {
-	contractId: Option<ContractId>;
+	contractId?: ContractId;
 	methodName: writeMethods;
 	args: object;
-	gas: Gas; // if null use DEFAULT GAS = THIRTY_TGAS
-	deposit: Deposit; // if null means DEFAULT_DEPOSIT = NO_DEPOSIT
+	gas?: Gas; // DEFAULT_GAS = THIRTY_TGAS
+	deposit?: Deposit; // DEFAULT_DEPOSIT = NO_DEPOSIT
 };
 
-// export type AadhaarRecord = {
-//   is_above_18: boolean,
-//   is_senior_citizen: boolean
-//   };
+// near-api-js accountId class can be used to create accountId object from the responses and then can use near-api-js methods on it
 
 export class NearWallet {
 	walletSelector: WalletSelector;
 	wallet: Option<Wallet>;
 	walletConfig: WalletConfig;
 	accountId: Option<AccountId>;
+
+	// view calls
+	nft_metadata = nft_metadata.bind(this);
+	nft_total_supply = nft_total_supply.bind(this);
+	nft_tokens = nft_tokens.bind(this);
+	nft_supply_for_owner = nft_supply_for_owner.bind(this);
+	nft_tokens_for_owner = nft_tokens_for_owner.bind(this);
+	nft_token = nft_token.bind(this);
+	get_owner = get_owner.bind(this);
+	get_recognised_skills_list = get_recognised_skills_list.bind(this);
+	get_company_details = get_company_details.bind(this);
+	get_whitelisted_companies_list = get_whitelisted_companies_list.bind(this);
+	get_approved_ft_tokens_list = get_approved_ft_tokens_list.bind(this);
+	get_task_details = get_task_details.bind(this);
+	get_all_tasks_list = get_all_tasks_list.bind(this);
+	get_tasks_from_company_list = get_tasks_from_company_list.bind(this);
+	get_submission_details = get_submission_details.bind(this);
+	get_submissions_for_task_list = get_submissions_for_task_list.bind(this);
+
+	// write calls
+	init = init.bind(this);
+	approve_ft_tokens = approve_ft_tokens.bind(this);
+	whitelist_companies = whitelist_companies.bind(this);
+	edit_company_details = edit_company_details.bind(this);
+	nft_mint = nft_mint.bind(this);
+	accept_invite = accept_invite.bind(this);
+	select_task = select_task.bind(this);
+	claim_refund = claim_refund.bind(this);
+	add_task_in_near_token = add_task_in_near_token.bind(this);
+	ping_task = ping_task.bind(this);
+	extend_deadline = extend_deadline.bind(this);
+	submit_task = submit_task.bind(this);
+
+	test_contract = test_contract.bind(this);
 
 	constructor(walletConfig: WalletConfig, walletSelector: WalletSelector) {
 		this.walletConfig = walletConfig;
@@ -83,7 +119,6 @@ export class NearWallet {
 			network: walletConfig.network,
 			modules: [
 				// ...(await setupDefaultWallets()),
-				setupNearWallet(),
 				setupMyNearWallet(),
 				setupSender(),
 				setupMathWallet(),
@@ -160,13 +195,15 @@ export class NearWallet {
 
 		const { contractId, methodName, args } = viewargs;
 
-		const contract_id = contractId ?? this.walletConfig.contractId;
+		const ContractId = contractId ?? this.walletConfig.contractId;
+
+		const Args = args ?? {};
 
 		const res = await provider.query({
 			request_type: 'call_function',
-			account_id: contract_id,
+			account_id: ContractId,
 			method_name: methodName,
-			args_base64: Buffer.from(JSON.stringify(args)).toString('base64'),
+			args_base64: Buffer.from(JSON.stringify(Args)).toString('base64'),
 			finality: 'optimistic'
 		});
 
@@ -179,7 +216,11 @@ export class NearWallet {
 		if (this.wallet) {
 			const { contractId, methodName, args, gas, deposit } = writeArgs;
 
-			const contract_id = contractId ?? this.walletConfig.contractId;
+			const ContractId = contractId ?? this.walletConfig.contractId;
+
+			const Gas = gas ?? THIRTY_TGAS;
+
+			const Deposit = deposit ?? NO_DEPOSIT;
 
 			if (this.accountId) {
 				signerId = this.accountId;
@@ -188,45 +229,33 @@ export class NearWallet {
 			}
 
 			try {
-				await this.wallet.signAndSendTransaction({
+				const outcome = await this.wallet.signAndSendTransaction({
 					signerId,
-					receiverId: contract_id,
+					receiverId: ContractId,
 					actions: [
 						{
 							type: 'FunctionCall',
 							params: {
 								methodName,
 								args,
-								gas,
-								deposit
+								gas: Gas,
+								deposit: Deposit
 							}
 						}
 					],
 					callbackUrl: 'http://127.0.0.1:5173/'
 				});
+
+				return outcome;
+
+				// if(outcome){
+				// 	await getTransactionLastResult(outcome)
+				// }
 			} catch (err) {
 				console.log(err);
 			}
+		} else {
+			throw new Error('No Account Logged in to sign the call');
 		}
 	}
-
-	// async fetchMetadata() {
-	//   const contractId = this.walletConfig.contractId;
-	//   return await this.viewMethod({ methodName: 'metadata', contractId: contractId, args: {} })
-	// }
-
-	// async addAadhaaar(id: string, aadhaarRecord: AadhaarRecord) {
-
-	//     const contractId = this.walletConfig.contractId;
-	//     await this.callMethod({
-	//       methodName: 'add_m_aadhaar_record',
-	//       contractId,
-	//       args: {
-	//         id,
-	//         m_aadhaar: aadhaarRecord
-	//       },
-	//       gas: THIRTY_TGAS,
-	//       deposit: NO_DEPOSIT
-	//     });
-	//   }
 }

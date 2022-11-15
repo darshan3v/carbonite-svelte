@@ -1,37 +1,39 @@
 <script lang="ts">
+	import { Buffer } from 'buffer';
+
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
 
 	import { NearWallet } from '$src/wallet/near-wallet';
 
-	import { Buffer } from 'buffer';
+	import { env } from '$env/dynamic/public';
 
 	// importing types
 
-	import type { WalletConfig,AadhaarRecord } from '../wallet/near-wallet';
-	import type { NetworkId, WalletSelector } from '@near-wallet-selector/core';
+	import type { WalletConfig } from '$src/wallet/near-wallet';
+	import type { WalletSelector } from '@near-wallet-selector/core';
 
-	const CONTRACT_ID: string = 'carbonite.testnet';
-	const NETWORK_TESTNET: NetworkId = 'testnet';
-	// export const ssr = false;
-	let walletConfig: WalletConfig = {
-		network: NETWORK_TESTNET,
-		contractId: CONTRACT_ID,
-		createAccessKeyFor: CONTRACT_ID
-	};
+	// import constants
+
+	import { TESTNET_NETWORK_ID, TESTNET_CONTRACT_ID } from '$src/wallet/constants';
+	import { test_contract } from '$src/wallet/test';
 
 	let nearWallet: NearWallet;
-	let random: string;
-
-	// to check for signed in
 	let isSignedIn: boolean = false;
 
-	if (browser) {
-		window.Buffer = Buffer;
-	}
+	let walletConfig: WalletConfig = {
+		network: TESTNET_NETWORK_ID,
+		contractId: TESTNET_CONTRACT_ID,
+		createAccessKeyFor: TESTNET_CONTRACT_ID
+	};
 
-	onMount(() => {
+	onMount(async () => {
+		window.Buffer = Buffer;
 		setuptWallet(walletConfig);
+		console.log(env);
+		window.process = {
+			...window.process
+		};
+		window.process.env = env;
 	});
 
 	async function setuptWallet(walletConfig: WalletConfig): Promise<void> {
@@ -41,20 +43,6 @@
 
 		isSignedIn = await nearWallet.startUp();
 	}
-
-
-	async function addRecord() {
-		if (browser){
-			const id = 'darshan.testnet'
-			const aadhaarRecord: AadhaarRecord = {
-				is_above_18: true,
-				is_senior_citizen: false
-			}
-			console.log(await nearWallet.addAadhaaar(id,aadhaarRecord));
-		}
-
-	}
-
 </script>
 
 <!-- sign in and sign out button -->
@@ -62,12 +50,13 @@
 	<button on:click={async () => nearWallet.signIn()}>Sign In</button>
 {:else}
 	<button on:click={async () => nearWallet.signOut()}>{nearWallet.accountId}</button>
-	{#await nearWallet.fetchMetadata()}
+
+	<!-- {#await nearWallet.fetchMetadata()}
 		<p>..... Fetching .....</p>
 	{:then metadata} 
 		<p>{JSON.stringify(metadata)}</p>
-	{/await}
+	{/await} -->
 
-	<button on:click={async () => addRecord()}>addRecord</button>
-
+	<!-- <button on:click={async () => addRecord()}>addRecord</button> -->
+	<button on:click={async () => nearWallet.test_contract()}>Test Contract></button>
 {/if}
