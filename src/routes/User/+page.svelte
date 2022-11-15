@@ -1,21 +1,34 @@
-This is user page
-
 <!-- have to register himself by minting nft  -->
-<!-- nft image -->
-<!-- user detales (title, deiscription(optional), public key(internal),account id(given by user and make sure that account id should not already exist)) -->
-<!-- mint nft button (nft_mint_args) -->
+<script>
+	import { writable } from 'svelte/store';
+	let user = {
+		title: '',
+		description: '',
+		account_id: '',
+		_public_key: ''
+	};
+</script>
+
+<!-- This is user page -->
 
 <!-- create a svelte form with  -->
-<!-- user detales (title, deiscription(optional), public key(internal),account id(given by user and make sure that account id should not already exist)) -->
-<scrypt />
+<!-- nft image selection -->
+<svg>
+	<rect width="150" height="150" fill="red" />
+</svg>
+<!-- user detailed (title, description(optional), public key(internal),account id(given by user and make sure that account id should not already exist)) -->
 <form>
 	<label for="title">Title</label>
-	<input type="text" id="title" name="title" />
+	<input type="text" bind:value={user.title} />
 	<label for="description">Description</label>
-	<input type="text" id="description" name="description" />
-	<label for="public_key">Public Key</label>
-	<input type="text" id="public_key" name="public_key" />
-	<label for="account_id">Account Id</label>
-	<input type="text" id="account_id" name="account_id" />
+	<input type="text" bind:value={user.description} />
+	<label for="account_id">Account ID</label>
+	<input type="text" bind:value={user.account_id} />
+
+	<!-- mint nft button (nft_mint_args) -->
 	<button type="submit">Submit</button>
 </form>
+
+{#if user.title}
+	<h1>{JSON.stringify(user)}</h1>
+{/if}

@@ -1,3 +1,16 @@
+<!-- submit task (inputs:(task_id,(Submission(line 57))) -> outputs(true or false or error)) -->
+<script lang="ts">
+	import type { Task } from 'src/wallet/structs_enums';
+	import { get_all_tasks_list } from 'src/wallet/view';
+
+	let taskList: Task[] = [];
+
+	// function to get all tasks from the contract by calling get_all_tasks_list(from_index,limit) until it returns empty array
+	function getTasks() {
+		//do later
+	}
+</script>
+
 <!-- will have all the taskes (accepted, invited, done)(three different tab views )  -->
 
 <!-- task (
@@ -13,4 +26,8 @@
 <!-- 2 types of tasks (if task is a bounty then ..... else only few ppl are eligable(invite only)) -->
 
 <!-- accept_invite (inputs:(task_id) -> outputs(true or false or error))-->
-<!-- submit task (inputs:(task_id,(Submission(line 57))) -> outputs(true or false or error)) -->
+
+<!-- -------------------------------------------------------------------------------- -->
+<!-- sort and display all the tasks -->
+
+{JSON.stringify(taskList)}
