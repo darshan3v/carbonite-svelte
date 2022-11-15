@@ -3,6 +3,21 @@ import type { NearWallet } from './near-wallet';
 import type { NFTContractMetadata } from './structs_enums';
 import type { AccountId } from './types';
 
+import { connect, keyStores, WalletConnection } from 'near-api-js';
+
+const connectionConfig = {
+	networkId: 'testnet',
+	keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+	nodeUrl: 'https://rpc.testnet.near.org',
+	walletUrl: 'https://wallet.testnet.near.org',
+	helperUrl: 'https://helper.testnet.near.org',
+	explorerUrl: 'https://explorer.testnet.near.org'
+};
+
+const nearConnection = await connect(connectionConfig);
+// connect a near account using nearconnet
+
+const account = await nearConnection.account('example-account.testnet');
 const owner_id: AccountId = 'carbonite.testnet';
 const nft_contract_metadata: NFTContractMetadata = {
 	spec: 'nft-1.0.0',
@@ -21,6 +36,4 @@ const init_args: init_args = {
 
 export async function test_contract(this: NearWallet) {
 	this.init(init_args);
-
-    
 }

@@ -55,8 +55,8 @@ export type TaskType =
 	| 'ForEveryone';
 
 export type Submission = {
-	submission_reference: string;
-	submission_reference_hash: string;
+	submission_reference: string; // url
+	submission_reference_hash: string; // hash
 };
 
 export type TokenMetadata = {
