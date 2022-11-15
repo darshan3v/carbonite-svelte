@@ -15,7 +15,6 @@
 	// import constants
 
 	import { TESTNET_NETWORK_ID, TESTNET_CONTRACT_ID } from '$src/wallet/constants';
-	import { test_contract } from '$src/wallet/test';
 
 	let nearWallet: NearWallet;
 	let isSignedIn: boolean = false;
@@ -57,6 +56,5 @@
 		<p>{JSON.stringify(metadata)}</p>
 	{/await} -->
 
-	<!-- <button on:click={async () => addRecord()}>addRecord</button> -->
 	<button on:click={async () => nearWallet.test_contract()}>Test Contract></button>
 {/if}

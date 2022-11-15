@@ -12,7 +12,6 @@ export async function init(this: NearWallet,args: init_args) {
         methodName: 'new',
         args,
         gas: ONE_FIFTY_TGAS,
-        deposit: ONE_NEAR_IN_YOCTO,
     })
 }
 
