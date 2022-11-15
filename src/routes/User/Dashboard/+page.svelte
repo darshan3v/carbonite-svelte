@@ -9,7 +9,6 @@
 	ft_contract_id: AccountId;
 	reward: Balance;
     ) 
-
     (get_all_tasks_list(from_index,limit))-->
 <!-- 2 types of tasks (if task is a bounty then ..... else only few ppl are eligable(invite only)) -->
 
