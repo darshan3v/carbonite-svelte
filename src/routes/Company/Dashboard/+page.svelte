@@ -1,10 +1,13 @@
 <script lang="ts">
-	import type { Company, Task } from 'src/wallet/structs_enums';
+	import type { Company, JsonCompany, Task } from 'src/wallet/structs_enums';
 	// import {} from 'src/wallet/view';
 	// import { edit_company_details } from 'src/wallet/write';
-	import type { NearWallet } from 'src/wallet/near-wallet';
-	let wallet: NearWallet; //TODO
-	let company: Company;
+	import { NearWallet, type WalletConfig } from 'src/wallet/near-wallet';
+	import { TESTNET_CONTRACT_ID, TESTNET_NETWORK_ID } from '$src/wallet/constants';
+	import type { WalletSelector } from '@near-wallet-selector/core';
+	import type { Option } from '$src/wallet/types';
+	let nearWallet: NearWallet; //TODO
+	let company: Option<JsonCompany>;
 
 	let tasks: Task = {
 		task_details: {
@@ -23,28 +26,45 @@
 		reward: 'reward'
 	};
 
-	function get_company() {
-		console.log('get_company', company);
-		company = {
-			name: 'Company Name',
-			icon: '',
-			industries: 'Industries',
-			description: 'Description',
-			location: 'Location',
-			reference: 'Reference'
-		};
+	async function get_company() {
+		company = await nearWallet.get_company_details({ account_id: nearWallet.accountId as string });
 	}
-	get_company();
 
-	function edit_company_detailes(company: Company) {
+	function edit_company_details(company: Company) {
 		console.log('edit_company', company);
 		// pass wallet and company to edit_company_details
-		wallet.edit_company_details(company);
+		nearWallet.edit_company_details({ new_company_details: company });
+	}
+
+	let walletConfig: WalletConfig = {
+		network: TESTNET_NETWORK_ID,
+		contractId: TESTNET_CONTRACT_ID,
+		createAccessKeyFor: TESTNET_CONTRACT_ID
+	};
+
+	async function setuptWallet(walletConfig: WalletConfig): Promise<void> {
+		const walletSelector: WalletSelector = await NearWallet.WithWalletSelector(walletConfig);
+
+		nearWallet = new NearWallet(walletConfig, walletSelector);
+
+		await nearWallet.startUp();
 	}
 
 	function add_task_in_near_token(task: Task) {
 		console.log('add_task_in_near_token', task);
-		wallet.add_task_in_near_token(task);
+		nearWallet.add_task_in_near_token({
+			task_id: '',
+			task_details: {
+				title: '',
+				description: '',
+				required_skills: '',
+				task_type: 'ForEveryone',
+				reference: '',
+				reference_hash: ''
+			},
+			deadline: 0,
+			reward: ''
+		});
 	}
 </script>
 
@@ -53,24 +73,33 @@
 {#if company}
 	<form>
 		<label for="name">Company Name</label>
-		<input type="text" id="name" bind:value={company.name} />
+		<input type="text" id="name" bind:value={company.details.name} />
 
 		<label for="icon">Company Icon(url)</label>
-		<input type="text" id="icon" bind:value={company.icon} />
+		<input type="text" id="icon" bind:value={company.details.icon} />
 
 		<label for="industries">Company Industries</label>
-		<input type="text" id="industries" bind:value={company.industries} />
+		<input type="text" id="industries" bind:value={company.details.industries} />
 
 		<label for="description">Company Description</label>
-		<input type="text" id="description" bind:value={company.description} />
+		<input type="text" id="description" bind:value={company.details.description} />
 
 		<label for="location">Company Location</label>
-		<input type="text" id="location" bind:value={company.location} />
+		<input type="text" id="location" bind:value={company.details.location} />
 
 		<label for="reference">Company Reference</label>
-		<input type="text" id="reference" bind:value={company.reference} />
+		<input type="text" id="reference" bind:value={company.details.reference} />
 
-		<button type="button" on:click={() => edit_company_detailes(company)}>Submit</button>
+		{#if company !== null}
+			<button
+				type="button"
+				on:click={() => {
+					if (company) {
+						edit_company_details(company.details);
+					}
+				}}>Submit</button
+			>
+		{/if}
 	</form>
 {:else}
 	<p>Company not found/Loading</p>
