@@ -161,7 +161,7 @@ export class NearWallet {
 
 		if (isSignedIn) {
 			this.wallet = await this.walletSelector.wallet();
-			console.log(this.walletSelector.store.getState());
+			console.log("this.walletSelector.store.getState()",this.walletSelector.store.getState());
 			this.accountId = this.walletSelector.store.getState().accounts[0].accountId;
 		} else {
 			this.wallet = this.accountId = this.walletConfig.createAccessKeyFor = null;
@@ -252,7 +252,7 @@ export class NearWallet {
 				// 	await getTransactionLastResult(outcome)
 				// }
 			} catch (err) {
-				console.log(err);
+				console.log("err",err);
 			}
 		} else {
 			throw new Error('No Account Logged in to sign the call');
