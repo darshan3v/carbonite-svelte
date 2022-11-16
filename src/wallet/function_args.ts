@@ -1,4 +1,10 @@
-import type { Company, NFTContractMetadata, Submission, TaskDetails } from './structs_enums';
+import type {
+	Company,
+	NFTContractMetadata,
+	Submission,
+	TaskDetails,
+	CompanyRegDetails
+} from './structs_enums';
 import type {
 	AccountId,
 	Balance,
@@ -45,6 +51,11 @@ export type get_recognised_skills_list_args = {
 
 export type get_company_details_args = {
 	account_id: AccountId;
+};
+
+export type get_pending_companies_list_args = {
+	from_index: Option<U128>;
+	limit: Option<u64>;
 };
 
 export type get_whitelisted_companies_list_args = {
@@ -94,8 +105,12 @@ export type approve_ft_tokens_args = {
 	ft_tokens_contract_ids_args: Vec<AccountId>;
 };
 
+export type request_verification_args = {
+	company_reg_details: CompanyRegDetails;
+};
+
 export type whitelist_companies_args = {
-	companies: Array<[AccountId, Company, PublicKey_str]>;
+	companies: Array<AccountId>;
 };
 
 export type edit_company_details_args = {

@@ -2,6 +2,7 @@ import type {
 	get_all_tasks_list_args,
 	get_approved_ft_tokens_list_args,
 	get_company_details_args,
+	get_pending_companies_list_args,
 	get_recognised_skills_list_args,
 	get_submissions_for_task_list_args,
 	get_submission_details_args,
@@ -17,6 +18,7 @@ import type {
 import type { NearWallet } from './near-wallet';
 
 import type {
+	CompanyRegDetails,
 	JsonCompany,
 	JsonSubmission,
 	JsonTask,
@@ -102,6 +104,18 @@ export async function get_company_details(
 		args
 	})) as Option<JsonCompany>;
 }
+
+
+export async function get_pending_companies_list(
+	this: NearWallet,
+	args: get_pending_companies_list_args
+): Promise<Vec<CompanyRegDetails>> {
+	return (await this.viewMethod({
+		methodName: 'get_pending_companies_list',
+		args
+	})) as Vec<CompanyRegDetails>;
+}
+
 
 export async function get_whitelisted_companies_list(
 	this: NearWallet,

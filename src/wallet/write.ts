@@ -4,7 +4,7 @@
 
 // import { utils } from 'near-api-js';
 import { ONE_FIFTY_TGAS, ONE_NEAR_IN_YOCTO, THIRTY_TGAS } from './constants';
-import type { accept_invite_args, add_task_in_near_token_args, approve_ft_tokens_args, claim_refund_args, edit_company_details_args, extend_deadline_args, init_args, nft_mint_args, ping_task_args, select_task_args, submit_task_args, whitelist_companies_args } from './function_args';
+import type { accept_invite_args, add_task_in_near_token_args, approve_ft_tokens_args, claim_refund_args, edit_company_details_args, extend_deadline_args, init_args, nft_mint_args, ping_task_args, request_verification_args, select_task_args, submit_task_args, whitelist_companies_args } from './function_args';
 import type { NearWallet } from './near-wallet';
 
 export async function init(this: NearWallet,args: init_args) {
@@ -18,6 +18,15 @@ export async function init(this: NearWallet,args: init_args) {
 export async function approve_ft_tokens(this: NearWallet,args: approve_ft_tokens_args) {
     return await this.callMethod({
         methodName: 'approve_ft_tokens',
+        args,
+        gas: ONE_FIFTY_TGAS,
+        deposit: ONE_NEAR_IN_YOCTO,
+    })
+}
+
+export async function request_verification(this: NearWallet,args: request_verification_args) {
+    return await this.callMethod({
+        methodName: 'request_verification',
         args,
         gas: ONE_FIFTY_TGAS,
         deposit: ONE_NEAR_IN_YOCTO,

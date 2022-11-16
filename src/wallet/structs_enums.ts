@@ -1,4 +1,4 @@
-import type { TaskId, TokenId, AccountId, u64, Option, Vec, Balance, Timestamp } from './types';
+import type { TaskId, TokenId, AccountId, u64, Option, Vec, Balance, Timestamp, PublicKey_str } from './types';
 
 // for now we are ignoring u64 -> U64 in both rust function input args and also u128
 
@@ -71,6 +71,12 @@ export type TokenMetadata = {
 	reference: string;
 	reference_hash: string;
 };
+
+export type CompanyRegDetails = {
+	account_id: string;
+	company: Company;
+	public_key: PublicKey_str;
+}
 
 export type JsonCompany = {
 	account_id: AccountId;

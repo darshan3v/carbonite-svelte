@@ -42,6 +42,7 @@ export type viewMethods =
 	| 'get_owner'
 	| 'get_recognised_skills_list'
 	| 'get_company_details'
+	| 'get_pending_companies_list'
 	| 'get_whitelisted_companies_list'
 	| 'get_approved_ft_tokens_list'
 	| 'get_task_details'
@@ -54,6 +55,7 @@ export type viewMethods =
 export type writeMethods =
 	| 'new'
 	| 'approve_ft_tokens'
+	| 'request_verification'
 	| 'whitelist_companies'
 	| 'edit_company_details'
 	| 'nft_mint'
