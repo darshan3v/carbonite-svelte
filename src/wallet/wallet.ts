@@ -12,16 +12,17 @@ import { TESTNET_NETWORK_ID, TESTNET_CONTRACT_ID } from '$src/wallet/constants';
 import type { WalletConfig } from '$src/wallet/near-wallet';
 import type { WalletSelector } from '@near-wallet-selector/core';
 
-export let nearWallet: NearWallet;
 export const isSignedIn: Writable<boolean> = writable(false);
 
-const walletConfig: WalletConfig = {
+export const walletConfig: WalletConfig = {
 	network: TESTNET_NETWORK_ID,
 	contractId: TESTNET_CONTRACT_ID,
 	createAccessKeyFor: TESTNET_CONTRACT_ID
 };
 
-async function setuptWallet(walletConfig: WalletConfig): Promise<void> {
+export let nearWallet: NearWallet;
+
+export async function setupWallet(walletConfig: WalletConfig): Promise<void> {
 	const walletSelector: WalletSelector = await NearWallet.WithWalletSelector(walletConfig);
 
 	nearWallet = new NearWallet(walletConfig, walletSelector);
@@ -31,7 +32,7 @@ async function setuptWallet(walletConfig: WalletConfig): Promise<void> {
 
 // Other extra stuff ('')!
 window.Buffer = Buffer;
-setuptWallet(walletConfig);
+setupWallet(walletConfig);
 console.log('env', env);
 window.process = {
 	...window.process

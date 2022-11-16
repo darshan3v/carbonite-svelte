@@ -1,6 +1,14 @@
 <!-- have to register himself by minting nft  -->
 <script>
 	import { writable } from 'svelte/store';
+
+	import { isSignedIn,nearWallet} from '$src/wallet/wallet';
+	import { goto } from '$app/navigation';
+
+	// if (! $isSignedIn){
+	// 	goto('/')
+	// }
+
 	let user = {
 		title: '',
 		description: '',

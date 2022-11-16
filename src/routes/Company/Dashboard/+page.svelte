@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Company, JsonCompany, Task } from 'src/wallet/structs_enums';
+	import type { Company, JsonCompany, Task } from '$src/wallet/structs_enums';
 	// import {} from 'src/wallet/view';
 	// import { edit_company_details } from 'src/wallet/write';
-	import { NearWallet, type WalletConfig } from 'src/wallet/near-wallet';
+	import { NearWallet, type WalletConfig } from '$src/wallet/near-wallet';
 	import { TESTNET_CONTRACT_ID, TESTNET_NETWORK_ID } from '$src/wallet/constants';
 	import type { WalletSelector } from '@near-wallet-selector/core';
 	import type { Option } from '$src/wallet/types';

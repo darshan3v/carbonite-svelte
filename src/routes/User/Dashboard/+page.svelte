@@ -1,7 +1,7 @@
 <!-- submit task (inputs:(task_id,(Submission(line 57))) -> outputs(true or false or error)) -->
 <script lang="ts">
-	import type { Task } from 'src/wallet/structs_enums';
-	import { get_all_tasks_list } from 'src/wallet/view';
+	import type { Task } from '$src/wallet/structs_enums';
+	import { get_all_tasks_list } from '$src/wallet/view';
 
 	let taskList: Task[] = [];
 
