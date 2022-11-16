@@ -8,6 +8,7 @@ import type {
 	get_submission_details_args,
 	get_tasks_from_company_list_args,
 	get_task_details_args,
+	get_invited_tasks_for_user_list_args,
 	get_whitelisted_companies_list_args,
 	nft_supply_for_owner_args,
 	nft_tokens_args,
@@ -26,7 +27,7 @@ import type {
 	NFTContractMetadata
 } from './structs_enums';
 
-import type { AccountId, Option, U128, Vec, Skills, ContractId } from './types';
+import type { AccountId, Option, U128, Vec, Skills, ContractId, TaskId } from './types';
 
 // write a general way to get running function name instead of writing it explicity and also make type checks on response though they will always be correct
 
@@ -145,6 +146,13 @@ export async function get_task_details(
 		methodName: 'get_task_details',
 		args
 	})) as Option<JsonTask>;
+}
+
+export async function get_invited_tasks_for_user_list(this: NearWallet, args: get_invited_tasks_for_user_list_args): Promise<Array<TaskId>> {
+	return (await this.viewMethod({
+		methodName: 'get_invited_tasks_for_user_list',
+		args
+	})) as Array<TaskId>;
 }
 
 export async function get_all_tasks_list(

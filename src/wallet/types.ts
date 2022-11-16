@@ -47,6 +47,7 @@ export type viewMethods =
 	| 'get_approved_ft_tokens_list'
 	| 'get_task_details'
 	| 'get_all_tasks_list'
+	| 'get_invited_tasks_for_user_list'
 	| 'get_tasks_from_company_list'
 	| 'get_submission_details'
 	| 'get_submissions_for_task_list';

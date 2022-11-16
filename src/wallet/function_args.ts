@@ -77,6 +77,12 @@ export type get_all_tasks_list_args = {
 	limit: Option<u64>;
 };
 
+export type get_invited_tasks_for_user_list_args = {
+	account_id: AccountId;
+	from_index: Option<U128>;
+	limit: Option<u64>;
+};
+
 export type get_tasks_from_company_list_args = {
 	company_id: AccountId;
 	from_index: Option<U128>;
