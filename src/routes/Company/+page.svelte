@@ -1,5 +1,6 @@
 <!-- -------------------------------------------------- -->
 <script lang="ts">
+	import type { NearWallet } from '$src/wallet/near-wallet';
 	import type { Company } from 'src/wallet/structs_enums';
 	// import {} from 'src/wallet/view';
 
@@ -14,6 +15,7 @@
 
 	function request_verification(company: Company) {
 		console.log('request_verification', company);
+		// wallet.request_verification(company); TODO
 	}
 </script>
 

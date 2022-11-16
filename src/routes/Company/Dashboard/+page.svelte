@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { Company, Task } from 'src/wallet/structs_enums';
 	// import {} from 'src/wallet/view';
-
+	// import { edit_company_details } from 'src/wallet/write';
+	import type { NearWallet } from 'src/wallet/near-wallet';
+	let wallet: NearWallet; //TODO
 	let company: Company;
 
 	let tasks: Task = {
@@ -36,10 +38,13 @@
 
 	function edit_company_detailes(company: Company) {
 		console.log('edit_company', company);
+		// pass wallet and company to edit_company_details
+		wallet.edit_company_details(company);
 	}
 
 	function add_task_in_near_token(task: Task) {
 		console.log('add_task_in_near_token', task);
+		wallet.add_task_in_near_token(task);
 	}
 </script>
 
@@ -67,6 +72,8 @@
 
 		<button type="button" on:click={() => edit_company_detailes(company)}>Submit</button>
 	</form>
+{:else}
+	<p>Company not found/Loading</p>
 {/if}
 <!-- else -->
 
@@ -78,58 +85,46 @@
 	<input type="text" id="title" bind:value={tasks.task_details.title} />
 
 	<label for="description">Task Description</label>
-	<input
-		type="text"
-		id="description"
-		name="description"
-		bind:value={tasks.task_details.description}
-	/>
+	<input type="text" id="description" bind:value={tasks.task_details.description} />
 
 	<label for="required_skills">Task Required Skills</label>
-	<input
-		type="text"
-		id="required_skills"
-		name="required_skills"
-		bind:value={tasks.task_details.required_skills}
-	/>
+	<input type="text" id="required_skills" bind:value={tasks.task_details.required_skills} />
 
-	<label for="task_type">Task Type</label>
-	<input type="text" id="task_type" name="task_type" bind:value={tasks.task_details.task_type} />
+	<label for="task_type">Task Type(WRONG)</label>
+	<input type="text" id="task_type" bind:value={tasks.task_details.task_type} />
 
 	<label for="reference">Task Reference</label>
-	<input type="text" id="reference" name="reference" bind:value={tasks.task_details.reference} />
+	<input type="text" id="reference" bind:value={tasks.task_details.reference} />
 
 	<label for="reference_hash">Task Reference Hash</label>
-	<input
-		type="text"
-		id="reference_hash"
-		name="reference_hash"
-		bind:value={tasks.task_details.reference_hash}
-	/>
+	<input type="text" id="reference_hash" bind:value={tasks.task_details.reference_hash} />
 
-	<h1>task</h1>
+	<h3>task</h3>
 	<label for="company_id">Company Id</label>
-	<input type="text" id="company_id" name="company_id" bind:value={tasks.company_id} />
+	<input type="text" id="company_id" bind:value={tasks.company_id} />
 
 	<label for="deadline">Deadline</label>
-	<input type="text" id="deadline" name="deadline" bind:value={tasks.deadline} />
+	<input type="datetime-local" id="deadline" bind:value={tasks.deadline} />
 
 	<label for="person_assigned">Person Assigned</label>
-	<input
-		type="text"
-		id="person_assigned"
-		name="person_assigned"
-		bind:value={tasks.person_assigned}
-	/>
+	<input type="text" id="person_assigned" bind:value={tasks.person_assigned} />
 
 	<label for="task_state">Task State</label>
-	<input type="text" id="task_state" name="task_state" bind:value={tasks.task_state} />
+	<!-- dropdown of 'Open' | 'Pending' | 'Completed' | 'Expired' | 'Overdue' | 'Payed'; -->
+	<select bind:value={tasks.task_state}>
+		<option value="Open">Open</option>
+		<option value="Pending">Pending</option>
+		<option value="Completed">Completed</option>
+		<option value="Expired">Expired</option>
+		<option value="Overdue">Overdue</option>
+		<option value="Payed">Payed</option>
+	</select>
 
-	<label for="ft_contract_id">FT Contract Id</label>
-	<input type="text" id="ft_contract_id" name="ft_contract_id" bind:value={tasks.ft_contract_id} />
+	<label for="ft_contract_id">FT Contract Id(remove)</label>
+	<input type="text" id="ft_contract_id" bind:value={tasks.ft_contract_id} />
 
 	<label for="reward">Reward</label>
-	<input type="text" id="reward" name="reward" bind:value={tasks.reward} />
+	<input type="number" step="any" id="reward" bind:value={tasks.reward} />
 
 	<button type="button" on:click={() => add_task_in_near_token(tasks)}>Submit</button>
 </form>
@@ -137,4 +132,11 @@
 
 <!-- get_tasks_from_company_list  -->
 <!-- select_task_args -->
+
 <!-- claim_refund_args -->
+<style>
+	form {
+		display: flex;
+		flex-direction: column;
+	}
+</style>
