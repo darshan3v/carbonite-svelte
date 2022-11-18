@@ -1,13 +1,7 @@
-import type {
-	add_task_in_near_token_args,
-	edit_company_details_args,
-	init_args,
-	nft_mint_args,
-	whitelist_companies_args
-} from './function_args';
+import type { init_args, nft_mint_args } from './function_args';
 import type { NearWallet } from './near-wallet';
-import type { Company, NFTContractMetadata, TaskDetails } from './structs_enums';
-import type { AccountId, TaskId } from './types';
+import type { NFTContractMetadata } from './structs_enums';
+import type { AccountId } from './types';
 
 import type { Account, ConnectConfig } from 'near-api-js';
 
@@ -50,16 +44,16 @@ export async function test_contract(this: NearWallet) {
 	};
 
 	// initialise the contract -> init()
-	console.log('Init ',await this.init(init_args));
+	console.log('Init ', await this.init(init_args));
 
 	// get_owner
-	console.log('get owner ',await this.get_owner());
+	console.log('get owner ', await this.get_owner());
 
 	// get nft_contract_metadata
-	console.log('nft_contract_metadata ',await this.nft_metadata());
+	console.log('nft_contract_metadata ', await this.nft_metadata());
 
 	//get nft_total_supply
-	console.log('nft_total_supply',await this.nft_total_supply());
+	console.log('nft_total_supply', await this.nft_total_supply());
 
 	// 	creating a user sub account -> nft_mint()
 	const akhil_user_id: AccountId = 'akhil.carbonite.testnet';
@@ -77,19 +71,25 @@ export async function test_contract(this: NearWallet) {
 		public_key: akhil_user_key.getPublicKey().toString()
 	};
 
-	console.log('NFT mint ',await this.nft_mint(nft_mint_args));
+	console.log('NFT mint ', await this.nft_mint(nft_mint_args));
 
 	//nft_tokens
-	console.log('NFT tokens ',await this.nft_tokens({from_index: null,limit: null}));
-	
+	console.log('NFT tokens ', await this.nft_tokens({ from_index: null, limit: null }));
+
 	//nft_supply_for_owner
-	console.log('NFT supply for owner ',await this.nft_supply_for_owner({account_id: akhil_user_id}));
+	console.log(
+		'NFT supply for owner ',
+		await this.nft_supply_for_owner({ account_id: akhil_user_id })
+	);
 
 	//nft_tokens_for_owner
-	console.log('NFT tokens ',await this.nft_tokens_for_owner({account_id: akhil_user_id,from_index: null,limit: null}));
+	console.log(
+		'NFT tokens ',
+		await this.nft_tokens_for_owner({ account_id: akhil_user_id, from_index: null, limit: null })
+	);
 
 	// get_recognised_skills_list
-	console.log('Recognised Skills ',await this.nft_tokens({from_index: null,limit: null}));
+	console.log('Recognised Skills ', await this.nft_tokens({ from_index: null, limit: null }));
 
 	// whitelist a company -> whitelist_companies()
 
@@ -159,6 +159,4 @@ export async function test_contract(this: NearWallet) {
 	// }
 
 	// console.log(this.add_task_in_near_token(add_task_in_near_token_args));
-
-
 }

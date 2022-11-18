@@ -1,13 +1,18 @@
 <!-- have to register himself by minting nft  -->
-<script>
+<script lang="ts">
 	import { writable } from 'svelte/store';
 
-	import { isSignedIn,nearWallet} from '$src/wallet/wallet';
-	import { goto } from '$app/navigation';
+	import { nearWallet, setup, setupWallet, walletConfig } from '$src/wallet/wallet';
+	import { onMount } from 'svelte';
 
-	// if (! $isSignedIn){
-	// 	goto('/')
-	// }
+	import Loader from '$src/components/Loader.svelte';
+
+	let Loading = true;
+
+	onMount(async () => {
+		setup();
+		Loading = false;
+	});
 
 	let user = {
 		title: '',
@@ -17,26 +22,29 @@
 	};
 </script>
 
-<!-- This is user page -->
+{#if Loading}
+	<Loader />
+{:else}
+	<!-- create a svelte form with  -->
+	<!-- nft image selection -->
+	<svg>
+		<rect width="150" height="150" fill="red" />
+	</svg>
+	<!-- user detailed (title, description(optional), public key(internal),account id(given by user and make sure that account id should not already exist)) -->
+	<form>
+		<label for="title">Title</label>
+		<input type="text" bind:value={user.title} />
+		<label for="description">Description</label>
+		<input type="text" bind:value={user.description} />
+		<label for="account_id">Account ID</label>
+		<input type="text" bind:value={user.account_id} />
 
-<!-- create a svelte form with  -->
-<!-- nft image selection -->
-<svg>
-	<rect width="150" height="150" fill="red" />
-</svg>
-<!-- user detailed (title, description(optional), public key(internal),account id(given by user and make sure that account id should not already exist)) -->
-<form>
-	<label for="title">Title</label>
-	<input type="text" bind:value={user.title} />
-	<label for="description">Description</label>
-	<input type="text" bind:value={user.description} />
-	<label for="account_id">Account ID</label>
-	<input type="text" bind:value={user.account_id} />
+		<!-- mint nft button (nft_mint_args) -->
+		<button type="submit">Submit</button>
+	</form>
 
-	<!-- mint nft button (nft_mint_args) -->
-	<button type="submit">Submit</button>
-</form>
-
-{#if user.title}
-	<h1>{JSON.stringify(user)}</h1>
+	{#if user.title}
+		<h1>{JSON.stringify(user)}</h1>
+	{/if}
 {/if}
+<!-- This is user page -->

@@ -2,8 +2,12 @@
 <script lang="ts">
 	import type { Task } from '$src/wallet/structs_enums';
 	import { get_all_tasks_list } from '$src/wallet/view';
+	import { setupWallet, walletConfig } from '$src/wallet/wallet';
+	import { onMount } from 'svelte';
 
 	let taskList: Task[] = [];
+
+	onMount(async () => await setupWallet(walletConfig));
 
 	// function to get all tasks from the contract by calling get_all_tasks_list(from_index,limit) until it returns empty array
 	function getTasks() {

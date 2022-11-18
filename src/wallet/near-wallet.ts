@@ -12,7 +12,7 @@ import { setupWelldoneWallet } from '@near-wallet-selector/welldone-wallet';
 import { setupNearFi } from '@near-wallet-selector/nearfi';
 import { setupWalletConnect } from '@near-wallet-selector/wallet-connect';
 import { setupCoin98Wallet } from '@near-wallet-selector/coin98-wallet';
-import { setupNeth } from '@near-wallet-selector/neth';
+// import { setupNeth } from '@near-wallet-selector/neth';
 import { setupOptoWallet } from '@near-wallet-selector/opto-wallet';
 
 // wallet selector UI
@@ -41,8 +41,38 @@ import type {
 
 // import constants
 import { NO_DEPOSIT, THIRTY_TGAS } from './constants';
-import { get_all_tasks_list, get_approved_ft_tokens_list, get_company_details, get_owner, get_recognised_skills_list, get_submissions_for_task_list, get_submission_details, get_tasks_from_company_list, get_task_details, get_whitelisted_companies_list, nft_metadata, nft_supply_for_owner, nft_token, nft_tokens, nft_tokens_for_owner, nft_total_supply } from './view';
-import { accept_invite, add_task_in_near_token, approve_ft_tokens, claim_refund, edit_company_details, extend_deadline, init, nft_mint, ping_task, select_task, submit_task, whitelist_companies } from './write';
+import {
+	get_all_tasks_list,
+	get_approved_ft_tokens_list,
+	get_company_details,
+	get_owner,
+	get_recognised_skills_list,
+	get_submissions_for_task_list,
+	get_submission_details,
+	get_tasks_from_company_list,
+	get_task_details,
+	get_whitelisted_companies_list,
+	nft_metadata,
+	nft_supply_for_owner,
+	nft_token,
+	nft_tokens,
+	nft_tokens_for_owner,
+	nft_total_supply
+} from './view';
+import {
+	accept_invite,
+	add_task_in_near_token,
+	approve_ft_tokens,
+	claim_refund,
+	edit_company_details,
+	extend_deadline,
+	init,
+	nft_mint,
+	ping_task,
+	select_task,
+	submit_task,
+	whitelist_companies
+} from './write';
 import { test_contract } from './test';
 
 export type WalletConfig = {
@@ -128,10 +158,10 @@ export class NearWallet {
 				// setupHereWallet(),
 				setupCoin98Wallet(),
 				setupNearFi(),
-				setupNeth({
-					gas: '300000000000000',
-					bundle: false
-				}),
+				// setupNeth({
+				// 	gas: '300000000000000',
+				// 	bundle: false
+				// }),
 				setupOptoWallet(),
 				setupWalletConnect({
 					projectId: 'c4f79cc...',
@@ -157,29 +187,31 @@ export class NearWallet {
 
 	// To be called when the website loads
 	async startUp() {
-		const isSignedIn = this.walletSelector.isSignedIn();
+		const SignedIn = this.walletSelector.isSignedIn();
 
-		if (isSignedIn) {
+		if (SignedIn) {
 			this.wallet = await this.walletSelector.wallet();
-			console.log("this.walletSelector.store.getState()",this.walletSelector.store.getState());
+			console.log('this.walletSelector.store.getState()', this.walletSelector.store.getState());
 			this.accountId = this.walletSelector.store.getState().accounts[0].accountId;
 		} else {
 			this.wallet = this.accountId = this.walletConfig.createAccessKeyFor = null;
 		}
 
-		return isSignedIn;
+		return SignedIn;
 	}
 
-	signIn() {
+	async signIn() {
 		const description = 'Please select a wallet to sign in.';
 		const modal = setupModal(this.walletSelector, {
 			contractId: this.walletConfig.contractId,
 			description
 		});
 		modal.show();
+
+		await this.startUp();
 	}
 
-	signOut() {
+	async signOut() {
 		if (this.wallet) {
 			this.wallet.signOut();
 			this.wallet = this.accountId = this.walletConfig.createAccessKeyFor = null;
@@ -187,6 +219,8 @@ export class NearWallet {
 		} else {
 			throw new Error('Already Logged out');
 		}
+
+		await this.startUp();
 	}
 
 	async viewMethod(viewargs: viewCallArgs) {
@@ -252,7 +286,7 @@ export class NearWallet {
 				// 	await getTransactionLastResult(outcome)
 				// }
 			} catch (err) {
-				console.log("err",err);
+				console.log('err', err);
 			}
 		} else {
 			throw new Error('No Account Logged in to sign the call');

@@ -1,19 +1,25 @@
 <script lang="ts">
-	import { isSignedIn, nearWallet, setupWallet, walletConfig } from '$src/wallet/wallet';
+	import { nearWallet, setup, setupWallet, walletConfig } from '$src/wallet/wallet';
 	import { onMount } from 'svelte';
-	console.log(isSignedIn);
+
+	import Loader from '$src/components/Loader.svelte';
+
+	let isSignedIn: boolean;
+	let Loading = true;
 
 	onMount(async () => {
-		setupWallet(walletConfig);
-	})
-
+		setup();
+		isSignedIn = await setupWallet(walletConfig);
+		Loading = false;
+	});
 </script>
 
-<!-- sign in and sign out button -->
-{#if !$isSignedIn}
-	<button on:click={async () => nearWallet.signIn()}>Sign In</button>
+{#if Loading}
+	<Loader />
+{:else if !isSignedIn}
+	<button on:click={async () => await nearWallet.signIn()}>Sign In</button>
 {:else}
-	<button on:click={async () => nearWallet.signOut()}>{nearWallet.accountId}</button>
+	<button on:click={async () => await nearWallet.signOut()}>{nearWallet.accountId}</button>
 
 	<button on:click={async () => nearWallet.test_contract()}>Test Contract></button>
 {/if}

@@ -106,7 +106,6 @@ export async function get_company_details(
 	})) as Option<JsonCompany>;
 }
 
-
 export async function get_pending_companies_list(
 	this: NearWallet,
 	args: get_pending_companies_list_args
@@ -116,7 +115,6 @@ export async function get_pending_companies_list(
 		args
 	})) as Vec<CompanyRegDetails>;
 }
-
 
 export async function get_whitelisted_companies_list(
 	this: NearWallet,
@@ -148,7 +146,10 @@ export async function get_task_details(
 	})) as Option<JsonTask>;
 }
 
-export async function get_invited_tasks_for_user_list(this: NearWallet, args: get_invited_tasks_for_user_list_args): Promise<Array<TaskId>> {
+export async function get_invited_tasks_for_user_list(
+	this: NearWallet,
+	args: get_invited_tasks_for_user_list_args
+): Promise<Array<TaskId>> {
 	return (await this.viewMethod({
 		methodName: 'get_invited_tasks_for_user_list',
 		args

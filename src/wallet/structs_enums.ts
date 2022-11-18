@@ -1,8 +1,17 @@
-import type { TaskId, TokenId, AccountId, u64, Option, Vec, Balance, Timestamp, PublicKey_str } from './types';
+import type {
+	TaskId,
+	TokenId,
+	AccountId,
+	Option,
+	Vec,
+	Balance,
+	Timestamp,
+	PublicKey_str
+} from './types';
 
 // for now we are ignoring u64 -> U64 in both rust function input args and also u128
 
-// bigint -> u64 -> rust u64
+// some u16 also taken as number like total tasks completed , Fix it later
 
 export type NFTContractMetadata = {
 	spec: string;
@@ -76,7 +85,7 @@ export type CompanyRegDetails = {
 	account_id: string;
 	company: Company;
 	public_key: PublicKey_str;
-}
+};
 
 export type JsonCompany = {
 	account_id: AccountId;
