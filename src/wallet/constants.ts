@@ -10,6 +10,8 @@ export const TESTNET_NETWORK_ID: NetworkId = 'testnet';
 export const MAINNET_CONTRACT_ID: ContractId = 'carbonite.mainnet';
 export const TESTNET_CONTRACT_ID: ContractId = 'carbonite.testnet';
 
+export const TESTNET_NODE_URL ='https://rpc.testnet.near.org';
+
 export const THIRTY_TGAS: Gas = '30000000000000';
 export const ONE_FIFTY_TGAS: Gas = '150000000000000';
 

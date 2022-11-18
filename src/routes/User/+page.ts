@@ -10,6 +10,8 @@ import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async () => {
+
+	// https://wallet.testnet.near.org/auto-import-secret-key#YOUR_ACCOUNT_ID/YOUR_PRIVATE_KEY
 	if (browser) {
 		const walletSelector: WalletSelector = await getWalletSelector();
 		const isSignedIn: boolean = walletSelector.isSignedIn();

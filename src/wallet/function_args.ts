@@ -124,8 +124,8 @@ export type edit_company_details_args = {
 };
 
 export type nft_mint_args = {
-	receiver_id: AccountId;
 	title: string;
+	receiver_id: AccountId;
 	description: Option<string>;
 	public_key: PublicKey_str;
 };

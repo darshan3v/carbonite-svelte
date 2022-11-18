@@ -6,6 +6,7 @@ import type { AccountId } from './types';
 import type { Account, ConnectConfig } from 'near-api-js';
 
 import { connect, keyStores, Near, KeyPair } from 'near-api-js';
+import { KeyPairEd25519 } from 'near-api-js/lib/utils';
 
 export async function test_contract(this: NearWallet) {
 	// const homedir = (await import('os')).homedir();
@@ -57,7 +58,7 @@ export async function test_contract(this: NearWallet) {
 
 	// 	creating a user sub account -> nft_mint()
 	const akhil_user_id: AccountId = 'akhil.carbonite.testnet';
-	const akhil_user_key: KeyPair = KeyPair.fromRandom('ed25519');
+	const akhil_user_key: KeyPair = KeyPairEd25519.fromRandom();
 
 	// local_key_store.setKey('testnet', akhil_user_id, akhil_user_key);
 	// await browser_key_store.setKey('testnet', akhil_user_id, akhil_user_key);

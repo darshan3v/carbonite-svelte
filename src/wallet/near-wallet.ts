@@ -277,7 +277,7 @@ export class NearWallet {
 							}
 						}
 					],
-					callbackUrl: 'http://127.0.0.1:5173/'
+					callbackUrl: '/'
 				});
 
 				return outcome;

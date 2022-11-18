@@ -4,19 +4,24 @@ import { NearWallet } from '$src/wallet/near-wallet';
 
 import { env } from '$env/dynamic/public';
 
+import { providers } from 'near-api-js';
+
 // import constants
-import { TESTNET_NETWORK_ID, TESTNET_CONTRACT_ID } from '$src/wallet/constants';
+import { TESTNET_NETWORK_ID, TESTNET_CONTRACT_ID, TESTNET_NODE_URL } from '$src/wallet/constants';
 
 // importing types
 import type { WalletConfig } from '$src/wallet/near-wallet';
 import type { WalletSelector } from '@near-wallet-selector/core';
 import type { AccountId } from './types';
+import { JsonRpcProvider, TypedError } from 'near-api-js/lib/providers';
 
 export const walletConfig: WalletConfig = {
 	network: TESTNET_NETWORK_ID,
 	contractId: TESTNET_CONTRACT_ID,
 	createAccessKeyFor: TESTNET_CONTRACT_ID
 };
+
+const provider: JsonRpcProvider = new providers.JsonRpcProvider({ url: TESTNET_NODE_URL });
 
 export let nearWallet: NearWallet;
 
@@ -46,6 +51,24 @@ export function is_carbonite_company_acc(accountId: AccountId) {
 	return company_name.endsWith('-Co') && subaccount === TESTNET_CONTRACT_ID;
 }
 
+export async function doesAccountExist(account_id: AccountId) {
+	try {
+		await provider.query({
+			request_type: 'view_account',
+			account_id: account_id,
+			finality: 'final'
+		});
+		return true;
+	} catch (err: unknown) {
+		if (err instanceof TypedError) {
+			if (err.type === 'AccountDoesNotExist') {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 // Other extra stuff ('')!
 export function setup() {
 	window.Buffer = Buffer;
@@ -55,4 +78,3 @@ export function setup() {
 	};
 	window.process.env = env;
 }
-

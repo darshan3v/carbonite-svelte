@@ -16,11 +16,11 @@
 	}
 
 	.loader p {
-		text-align: center;
 		width: 100vw;
 		position: absolute;
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		text-align: center;
 		font-size: x-large;
 		font-weight: 500;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
 </style>
