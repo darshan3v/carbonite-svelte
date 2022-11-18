@@ -1,13 +1,24 @@
 <!-- submit task (inputs:(task_id,(Submission(line 57))) -> outputs(true or false or error)) -->
 <script lang="ts">
 	import type { Task } from '$src/wallet/structs_enums';
-	import { get_all_tasks_list } from '$src/wallet/view';
-	import { setupWallet, walletConfig } from '$src/wallet/wallet';
+	import { get_all_tasks_list, nft_tokens_for_owner } from '$src/wallet/view';
+	import { nearWallet, setup, setupWallet, walletConfig } from '$src/wallet/wallet';
 	import { onMount } from 'svelte';
 
 	let taskList: Task[] = [];
 
-	onMount(async () => await setupWallet(walletConfig));
+	onMount(async () => {
+		setup()
+		await setupWallet(walletConfig);
+		if (nearWallet.accountId) {
+			const metadata = await nearWallet.nft_tokens_for_owner({
+				account_id: nearWallet.accountId,
+				from_index: null,
+				limit: null
+			});
+			console.log(metadata);
+		}
+	});
 
 	// function to get all tasks from the contract by calling get_all_tasks_list(from_index,limit) until it returns empty array
 	function getTasks() {

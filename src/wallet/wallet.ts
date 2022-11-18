@@ -21,7 +21,7 @@ export const walletConfig: WalletConfig = {
 	createAccessKeyFor: TESTNET_CONTRACT_ID
 };
 
-const provider: JsonRpcProvider = new providers.JsonRpcProvider({ url: TESTNET_NODE_URL });
+export const provider: JsonRpcProvider = new providers.JsonRpcProvider({ url: TESTNET_NODE_URL });
 
 export let nearWallet: NearWallet;
 

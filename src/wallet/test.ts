@@ -45,7 +45,7 @@ export async function test_contract(this: NearWallet) {
 	};
 
 	// initialise the contract -> init()
-	console.log('Init ', await this.init(init_args));
+	console.log('Init ', await this.init(init_args));	
 
 	// get_owner
 	console.log('get owner ', await this.get_owner());
@@ -57,13 +57,13 @@ export async function test_contract(this: NearWallet) {
 	console.log('nft_total_supply', await this.nft_total_supply());
 
 	// 	creating a user sub account -> nft_mint()
-	const akhil_user_id: AccountId = 'akhil.carbonite.testnet';
+	const akhil_user_id: AccountId = 'ran.carbonite.testnet';
 	const akhil_user_key: KeyPair = KeyPairEd25519.fromRandom();
 
 	// local_key_store.setKey('testnet', akhil_user_id, akhil_user_key);
 	// await browser_key_store.setKey('testnet', akhil_user_id, akhil_user_key);
 
-	const akhil_acc: Account = await nearConnection.account(akhil_user_id);
+	// const akhil_acc: Account = await nearConnection.account(akhil_user_id);
 
 	const nft_mint_args: nft_mint_args = {
 		receiver_id: akhil_user_id,

@@ -31,10 +31,10 @@
 		err_msg: ''
 	};
 
-	onMount(() => {
-		setupWallet(walletConfig);
+	onMount(async () => {
 		localStorage.removeItem('privateKey');
 		localStorage.removeItem('carboniteAccountId');
+		await setupWallet(walletConfig);
 	});
 
 	async function validate_form() {

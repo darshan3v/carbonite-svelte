@@ -277,7 +277,7 @@ export class NearWallet {
 							}
 						}
 					],
-					callbackUrl: '/'
+					// callbackUrl: '/'
 				});
 
 				return outcome;
