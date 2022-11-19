@@ -69,8 +69,13 @@ export async function doesAccountExist(account_id: AccountId) {
 	return true;
 }
 
+export async function delay(time_in_ms: number) {
+	return new Promise((res) => {
+		setTimeout(res, time_in_ms);
+	});
+}
+
 // Other extra stuff ('')!
-export function setup() {}
 window.Buffer = Buffer;
 console.log('env', env);
 window.process = {

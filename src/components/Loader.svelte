@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { DoubleBounce } from 'svelte-loading-spinners';
+
+	export let loading_msg: string;
 </script>
 
 <div class="loader">
 	<DoubleBounce />
-	<p><br /><br /><br /><br />Carbon &nbsp; ‣‣‣‣ &nbsp; Diamond</p>
+	<p><br /><br /><br /><br />{loading_msg}</p>
 </div>
 
 <style>
