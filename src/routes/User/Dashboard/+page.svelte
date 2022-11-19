@@ -8,7 +8,7 @@
 	let taskList: Task[] = [];
 
 	onMount(async () => {
-		setup()
+		setup();
 		await setupWallet(walletConfig);
 		if (nearWallet.accountId) {
 			const metadata = await nearWallet.nft_tokens_for_owner({
@@ -16,7 +16,7 @@
 				from_index: null,
 				limit: null
 			});
-			console.log(metadata);
+			console.log('metadata', metadata);
 		}
 	});
 

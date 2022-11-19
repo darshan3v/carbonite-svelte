@@ -70,11 +70,11 @@ export async function doesAccountExist(account_id: AccountId) {
 }
 
 // Other extra stuff ('')!
-export function setup() {
-	window.Buffer = Buffer;
-	console.log('env', env);
-	window.process = {
-		...window.process
-	};
-	window.process.env = env;
-}
+export function setup() {}
+window.Buffer = Buffer;
+console.log('env', env);
+window.process = {
+	...window.process
+};
+window.process.env = env;
+// }
