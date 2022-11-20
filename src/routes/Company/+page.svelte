@@ -16,11 +16,15 @@
 	import type { AccountId } from '$src/wallet/types';
 	import { goto } from '$app/navigation';
 	import { KeyPairEd25519 } from 'near-api-js/lib/utils';
+	import type { PageData } from './$types';
 	// import {} from '$src/wallet/view';
 	let keyPair: KeyPairEd25519;
 
 	let Loading = true;
 	let loading_msg: string = 'Loading';
+	let pending: boolean = false;
+
+	export let data: PageData;
 
 	//TODO: change this
 	let other: any = {};
@@ -51,6 +55,11 @@
 			await delay(2000);
 			goto('/');
 		}
+
+		if (data.has_company_requested_verification === true) {
+			pending = true;
+		}
+
 		Loading = false;
 	});
 
@@ -100,11 +109,12 @@
 
 {#if Loading}
 	<Loader {loading_msg} />
-{:else}
+{:else if !pending}
 	<!-- company registration (Company(line 23 structs enum)) (call request_verification)  -->
 
 	<form>
 		<div>
+			<!-- add a view function to check if a request from this name already exists -->
 			<label for="account_id">Account Id</label>
 			<input type="text" name="account_id" bind:value={other.account_id} />
 		</div>
@@ -152,6 +162,8 @@
 			<button type="button" on:click={() => request_verification(company)}>Submit</button>
 		</div>
 	</form>
+{:else}
+	<h1>Pending</h1>
 {/if}
 
 <style>

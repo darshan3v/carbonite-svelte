@@ -6,6 +6,8 @@ export const load: PageLoad = async ({ url }) => {
 	const txHash = url.searchParams.get('transactionHashes');
 
 	if (txHash) {
+		// reset url
+
 		const privateKey: string = localStorage.getItem('privateKey') ?? '';
 		const accountId: string = localStorage.getItem('carboniteAccountId') ?? '';
 

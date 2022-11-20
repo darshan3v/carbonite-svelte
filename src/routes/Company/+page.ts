@@ -9,20 +9,44 @@ export const load: PageLoad = async ({ url }) => {
 		const accountId: string | null = localStorage.getItem('carboniteCompanyAccountId');
 
 		if (!accountId) {
-			return;
+			return {
+				has_company_requested_verification: false
+			};
 		}
 
 		await setupWallet(walletConfig);
 		console.log(accountId);
 
 		const err_msg = url.searchParams.get('errorMessage');
-		console.log(err_msg);
+
+		if (err_msg) {
+			localStorage.removeItem('companyPrivateKey');
+			localStorage.removeItem('carboniteCompanyAccountId');
+
+			// reset url
+
+			console.log(err_msg);
+
+			return {
+				has_company_requested_verification: false
+			};
+		}
 
 		// url/?errorCode=Error&errorMessage=%257B%2522index%2522%253A0%252C%	check for error and handle
 
-		const company = await nearWallet.get_company_details({
+		const has_company_requested_verification = await nearWallet.has_company_requested_verification({
 			account_id: accountId
 		});
+
+		console.log(has_company_requested_verification);
+
+		if (has_company_requested_verification) {
+			return {
+				has_company_requested_verification
+			};
+		}
+
+		const company = await nearWallet.get_company_details({ account_id: accountId });
 
 		console.log(company);
 
@@ -40,6 +64,10 @@ export const load: PageLoad = async ({ url }) => {
 
 			open(account_import_url);
 		}
+
+		return {
+			has_company_requested_verification: false
+		};
 
 		// show that the company reg is pending
 	}

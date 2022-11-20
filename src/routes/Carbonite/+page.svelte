@@ -15,9 +15,7 @@
 	} from '$src/wallet/wallet';
 	import type { AccountId, Vec } from '$src/wallet/types';
 	import { goto } from '$app/navigation';
-	import { KeyPairEd25519 } from 'near-api-js/lib/utils';
 	// import {} from '$src/wallet/view';
-	let keyPair: KeyPairEd25519;
 
 	let Loading = true;
 	let loading_msg: string = 'Loading';
@@ -58,9 +56,11 @@
 		console.log('whitelist_companies(Array<AccountId>)', companies);
 
 		try {
-			await nearWallet.whitelist_companies({
+			const result = await nearWallet.whitelist_companies({
 				companies: companies
 			});
+
+			console.log('result',result);
 		} catch (e) {
 			console.log('ERROR whitelist_companies(Array<AccountId>)', e);
 		}

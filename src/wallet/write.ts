@@ -47,7 +47,6 @@ export async function whitelist_companies(this: NearWallet, args: whitelist_comp
 		methodName: 'whitelist_companies',
 		args,
 		gas: ONE_FIFTY_TGAS,
-		deposit: ONE_NEAR_IN_YOCTO
 	});
 }
 

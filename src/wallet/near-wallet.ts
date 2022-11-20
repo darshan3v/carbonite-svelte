@@ -53,6 +53,7 @@ import {
 	get_tasks_from_company_list,
 	get_task_details,
 	get_whitelisted_companies_list,
+	has_company_requested_verification,
 	nft_metadata,
 	nft_supply_for_owner,
 	nft_token,
@@ -116,6 +117,7 @@ export class NearWallet {
 	get_recognised_skills_list = get_recognised_skills_list.bind(this);
 	get_company_details = get_company_details.bind(this);
 	get_pending_companies_list = get_pending_companies_list.bind(this);
+	has_company_requested_verification = has_company_requested_verification.bind(this);
 	get_whitelisted_companies_list = get_whitelisted_companies_list.bind(this);
 	get_approved_ft_tokens_list = get_approved_ft_tokens_list.bind(this);
 	get_task_details = get_task_details.bind(this);
