@@ -1,17 +1,19 @@
-import { provider } from '$src/wallet/wallet';
+import { nearWallet, provider } from '$src/wallet/wallet';
 
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ url }) => {
-	const txHash = url.searchParams.get('transactionHashes');
+	const privateKey: string = localStorage.getItem('companyPrivateKey') ?? '';
+	const accountId: string = localStorage.getItem('carboniteCompanyAccountId') ?? '';
 
-	if (txHash) {
-		const privateKey: string = localStorage.getItem('privateKey') ?? '';
-		const accountId: string = localStorage.getItem('carboniteAccountId') ?? '';
+	// check if company is approved (returns null if not approved)
+	const company = await nearWallet.get_company_details({
+		account_id: nearWallet.accountId as string
+	});
 
-		localStorage.removeItem('privateKey');
-		localStorage.removeItem('carboniteAccountId');
-
+	if (company !== null) {
+		localStorage.removeItem('companyPrivateKey');
+		localStorage.removeItem('carboniteCompanyAccountId');
 		// https://wallet.testnet.near.org/auto-import-secret-key#YOUR_ACCOUNT_ID/YOUR_PRIVATE_KEY
 		const account_import_url =
 			'https://testnet.mynearwallet.com/auto-import-secret-key' +
@@ -20,7 +22,7 @@ export const load: PageLoad = async ({ url }) => {
 			'/' +
 			privateKey;
 
-		console.log(await provider.txStatus(txHash, accountId));
+		// console.log(await provider.txStatus(txHash, accountId));
 
 		open(account_import_url);
 	}
