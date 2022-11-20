@@ -26,13 +26,23 @@
 			});
 			// console.log('metadata', tokens);
 			nft = tokens[0];
-	({metadata: {title,media,carbonite_metadata:{xp,tasks_completed,total_tasks_completed}}} = nft);
+			({
+				metadata: {
+					title,
+					media,
+					carbonite_metadata: { xp, tasks_completed, total_tasks_completed }
+				}
+			} = nft);
+
+			getTasks();
 		}
 	});
 
 	// function to get all tasks from the contract by calling get_all_tasks_list(from_index,limit) until it returns empty array
-	function getTasks() {
-		//do later
+	async function getTasks() {
+		//TODO:do later
+		let tasklist = await nearWallet.get_all_tasks_list({ from_index: '0', limit: 25 });
+		console.log('tasklist', tasklist);
 	}
 </script>
 
@@ -58,8 +68,8 @@
 {#if nft}
 	<h1>Hi ! {title}</h1>
 	<!-- fix showing media use near wallet frontend code as reference to resolve nft media  -->
-	<img src="{media}" alt="NFT">
-	<h3> XP : {xp}</h3>
-	<h3> Tasks Completed : {tasks_completed.length === 0 ? 'No Tasks Completed' : tasks_completed }</h3>
-	<h3> Total Tasks Completed : {total_tasks_completed}</h3>
+	<img src={media} alt="NFT" />
+	<h3>XP : {xp}</h3>
+	<h3>Tasks Completed : {tasks_completed.length === 0 ? 'No Tasks Completed' : tasks_completed}</h3>
+	<h3>Total Tasks Completed : {total_tasks_completed}</h3>
 {/if}

@@ -63,6 +63,7 @@ import {
 	accept_invite,
 	add_task_in_near_token,
 	approve_ft_tokens,
+	request_verification,
 	claim_refund,
 	edit_company_details,
 	extend_deadline,
@@ -124,6 +125,7 @@ export class NearWallet {
 	// write calls
 	init = init.bind(this);
 	approve_ft_tokens = approve_ft_tokens.bind(this);
+	request_verification = request_verification.bind(this);
 	whitelist_companies = whitelist_companies.bind(this);
 	edit_company_details = edit_company_details.bind(this);
 	nft_mint = nft_mint.bind(this);
@@ -276,7 +278,7 @@ export class NearWallet {
 								deposit: Deposit
 							}
 						}
-					],
+					]
 					// callbackUrl: '/'
 				});
 

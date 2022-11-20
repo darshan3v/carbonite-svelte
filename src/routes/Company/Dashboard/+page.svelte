@@ -53,17 +53,18 @@
 	function add_task_in_near_token(task: Task) {
 		console.log('add_task_in_near_token', task);
 		nearWallet.add_task_in_near_token({
-			task_id: '',
-			task_details: {
-				title: '',
-				description: '',
-				required_skills: '',
-				task_type: 'ForEveryone',
-				reference: '',
-				reference_hash: ''
-			},
-			deadline: 0,
-			reward: ''
+			task_id: '', // TODO:
+			// task_details: {
+			// 	title: task.task_details.title,
+			// 	description: task.task_details.description,
+			// 	required_skills: task.task_details.required_skills,
+			// 	task_type: task.task_details.task_type,
+			// 	reference: task.task_details.reference,
+			// 	reference_hash: task.task_details.reference_hash
+			// },
+			task_details: task.task_details,
+			deadline: task.deadline,
+			reward: task.reward
 		});
 	}
 </script>

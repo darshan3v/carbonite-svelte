@@ -1,7 +1,7 @@
 <!-- -------------------------------------------------- -->
 <script lang="ts">
 	import type { NearWallet } from '$src/wallet/near-wallet';
-	import type { Company } from 'src/wallet/structs_enums';
+	import type { Company, CompanyRegDetails } from 'src/wallet/structs_enums';
 	import Loader from '$src/components/Loader.svelte';
 	import { onMount } from 'svelte';
 	import type { WalletSelector } from '@near-wallet-selector/core';
@@ -9,7 +9,8 @@
 		delay,
 		getWalletSelector,
 		is_carbonite_company_acc,
-		is_carbonite_user_acc
+		is_carbonite_user_acc,
+		nearWallet
 	} from '$src/wallet/wallet';
 	import type { AccountId } from '$src/wallet/types';
 	import { goto } from '$app/navigation';
@@ -17,6 +18,9 @@
 
 	let Loading = true;
 	let loading_msg: string = 'Loading';
+
+	//TODO: change this
+	let other: any = {};
 
 	onMount(async () => {
 		const walletSelector: WalletSelector = await getWalletSelector();
@@ -57,6 +61,13 @@
 	function request_verification(company: Company) {
 		console.log('request_verification', company);
 		// wallet.request_verification(company); TODO
+		nearWallet.request_verification({
+			company_reg_details: {
+				account_id: other.account_id,
+				company: company,
+				public_key: other.public_key
+			}
+		});
 	}
 </script>
 
@@ -69,6 +80,14 @@
 	<!-- company registration (Company(line 23 structs enum)) (call request_verification)  -->
 
 	<form>
+		<label for="account_id">account_id</label>
+		<input type="text" name="account_id" bind:value={other.account_id} />
+
+		<!-- public_key -->
+		<label for="public_key">public_key</label>
+		<input type="text" name="public_key" bind:value={other.public_key} />
+
+		<h1>company</h1>
 		<label for="name">Company Name</label>
 		<input type="text" id="name" name="name" bind:value={company.name} />
 

@@ -29,7 +29,7 @@
 				await delay(2000);
 				goto('/User/Dashboard');
 			} else if (!is_carbonite_company_acc(accountId)) {
-				loading_msg = "Sign in with Carbonite Account to view Dashboard";
+				loading_msg = 'Sign in with Carbonite Account to view Dashboard';
 				await delay(2000);
 				goto('/User');
 			}
