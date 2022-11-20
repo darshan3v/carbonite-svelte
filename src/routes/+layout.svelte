@@ -8,6 +8,8 @@
 	<a href="/Company">Company</a>
 	<!-- company Dashboard -->
 	<a href="/Company/Dashboard">Company Dashboard</a>
+	<!-- Carbonite -->
+	<a href="/Carbonite">Carbonite</a>
 </nav>
 <slot />
 
