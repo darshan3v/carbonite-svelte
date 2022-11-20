@@ -21,7 +21,7 @@
 
 		if (!isSignedIn) {
 			loading_msg = 'Sign in to view your Dashboard';
-			await delay(1000);
+			await delay(2000);
 			goto('/');
 		} else {
 			accountId = walletSelector.store.getState().accounts[0].accountId;

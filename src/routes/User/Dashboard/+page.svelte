@@ -1,21 +1,32 @@
 <!-- submit task (inputs:(task_id,(Submission(line 57))) -> outputs(true or false or error)) -->
 <script lang="ts">
-	import type { Task } from '$src/wallet/structs_enums';
-	import { get_all_tasks_list, nft_tokens_for_owner } from '$src/wallet/view';
+	import type { JsonToken, Task, TokenMetadata } from '$src/wallet/structs_enums';
+	import type { Vec } from '$src/wallet/types';
+	import { get_all_tasks_list, nft_metadata, nft_tokens_for_owner } from '$src/wallet/view';
 	import { nearWallet, setupWallet, walletConfig } from '$src/wallet/wallet';
 	import { onMount } from 'svelte';
 
 	let taskList: Task[] = [];
 
+	let nft: JsonToken;
+
+	let title: string;
+	let media: string;
+	let xp: number;
+	let tasks_completed: Vec<string>;
+	let total_tasks_completed: number;
+
 	onMount(async () => {
 		await setupWallet(walletConfig);
 		if (nearWallet.accountId) {
-			const metadata = await nearWallet.nft_tokens_for_owner({
+			const tokens = await nearWallet.nft_tokens_for_owner({
 				account_id: nearWallet.accountId,
 				from_index: null,
 				limit: null
 			});
-			console.log('metadata', metadata);
+			// console.log('metadata', tokens);
+			nft = tokens[0];
+	({metadata: {title,media,carbonite_metadata:{xp,tasks_completed,total_tasks_completed}}} = nft);
 		}
 	});
 
@@ -44,4 +55,11 @@
 <!-- -------------------------------------------------------------------------------- -->
 <!-- sort and display all the tasks -->
 
-{JSON.stringify(taskList)}
+{#if nft}
+	<h1>Hi ! {title}</h1>
+	<!-- fix showing media use near wallet frontend code as reference to resolve nft media  -->
+	<img src="{media}" alt="NFT">
+	<h3> XP : {xp}</h3>
+	<h3> Tasks Completed : {tasks_completed.length === 0 ? 'No Tasks Completed' : tasks_completed }</h3>
+	<h3> Total Tasks Completed : {total_tasks_completed}</h3>
+{/if}
