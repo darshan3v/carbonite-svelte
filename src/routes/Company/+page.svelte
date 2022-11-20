@@ -14,7 +14,9 @@
 	} from '$src/wallet/wallet';
 	import type { AccountId } from '$src/wallet/types';
 	import { goto } from '$app/navigation';
+	import { KeyPairEd25519 } from 'near-api-js/lib/utils';
 	// import {} from '$src/wallet/view';
+	let keyPair: KeyPairEd25519;
 
 	let Loading = true;
 	let loading_msg: string = 'Loading';
@@ -60,14 +62,24 @@
 
 	function request_verification(company: Company) {
 		console.log('request_verification', company);
+		keyPair = KeyPairEd25519.fromRandom();
+		other.account_id.public_key = keyPair.getPublicKey().toString();
+
+		localStorage.setItem('carboniteCompanyAccountId', other.account_id);
+		localStorage.setItem('companyPrivateKey', keyPair.secretKey);
+
 		// wallet.request_verification(company); TODO
-		nearWallet.request_verification({
-			company_reg_details: {
-				account_id: other.account_id,
-				company: company,
-				public_key: other.public_key
-			}
-		});
+		try {
+			nearWallet.request_verification({
+				company_reg_details: {
+					account_id: other.account_id,
+					company: company,
+					public_key: other.public_key
+				}
+			});
+		} catch (error) {
+			console.log('error');
+		}
 	}
 </script>
 
