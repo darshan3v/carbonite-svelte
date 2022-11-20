@@ -30,7 +30,7 @@ export async function getWalletSelector() {
 }
 
 export async function setupWallet(walletConfig: WalletConfig): Promise<boolean> {
-	const walletSelector: WalletSelector = await NearWallet.WithWalletSelector(walletConfig);
+	const walletSelector: WalletSelector = await getWalletSelector();
 
 	nearWallet = new NearWallet(walletConfig, walletSelector);
 
@@ -41,7 +41,7 @@ export function is_carbonite_user_acc(accountId: AccountId) {
 	const username = accountId.slice(0, accountId.indexOf('.'));
 	const subaccount = accountId.slice(accountId.indexOf('.') + 1);
 
-	return username !== '' && subaccount === TESTNET_CONTRACT_ID && !username.endsWith('-Co');
+	return username !== '' && subaccount === TESTNET_CONTRACT_ID && !username.endsWith('-co');
 }
 
 export function is_carbonite_company_acc(accountId: AccountId) {
