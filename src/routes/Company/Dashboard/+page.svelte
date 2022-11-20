@@ -19,7 +19,7 @@
 			reference_hash: 'Task 1 reference hash'
 		},
 		company_id: 'company_id',
-		deadline: 10000, //unix timestamp
+		deadline: 10000, //unix timestamp in ms
 		person_assigned: 'person_assigned',
 		task_state: 'Open',
 		ft_contract_id: 'ft_contract_id',
@@ -51,6 +51,9 @@
 	}
 
 	function add_task_in_near_token(task: Task) {
+
+		tasks.company_id = nearWallet.accountId ?? '';		// won't be null since route protection will handle it
+
 		console.log('add_task_in_near_token', task);
 		nearWallet.add_task_in_near_token({
 			task_id: '', // TODO:
@@ -123,19 +126,23 @@
 	<label for="task_type">Task Type(WRONG)</label>
 	<input type="text" id="task_type" bind:value={tasks.task_details.task_type} />
 
-	<label for="reference">Task Reference</label>
+	<!-- would be empty string for now but later will be some ipfs link fetched from contract -->
+
+	<!-- <label for="reference">Task Reference</label>
 	<input type="text" id="reference" bind:value={tasks.task_details.reference} />
 
 	<label for="reference_hash">Task Reference Hash</label>
-	<input type="text" id="reference_hash" bind:value={tasks.task_details.reference_hash} />
+	<input type="text" id="reference_hash" bind:value={tasks.task_details.reference_hash} /> -->
 
 	<h3>task</h3>
-	<label for="company_id">Company Id</label>
-	<input type="text" id="company_id" bind:value={tasks.company_id} />
+	<!-- <label for="company_id">Company Id</label>
+	<input type="text" id="company_id" bind:value={tasks.company_id} /> -->
 
+	<!-- unix epoch in milliseconds -->
 	<label for="deadline">Deadline</label>
 	<input type="datetime-local" id="deadline" bind:value={tasks.deadline} />
 
+	<!-- null by default once fetched then show fetched details -->
 	<label for="person_assigned">Person Assigned</label>
 	<input type="text" id="person_assigned" bind:value={tasks.person_assigned} />
 
@@ -152,6 +159,9 @@
 
 	<label for="ft_contract_id">FT Contract Id(remove)</label>
 	<input type="text" id="ft_contract_id" bind:value={tasks.ft_contract_id} />
+
+	<!-- show dollar conversion -->
+	<!-- convert into yocto near before sending -->
 
 	<label for="reward">Reward</label>
 	<input type="number" step="any" id="reward" bind:value={tasks.reward} />

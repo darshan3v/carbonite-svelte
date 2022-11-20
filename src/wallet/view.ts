@@ -13,7 +13,8 @@ import type {
 	nft_supply_for_owner_args,
 	nft_tokens_args,
 	nft_tokens_for_owner_args,
-	nft_token_args
+	nft_token_args,
+	has_company_requested_verification_args
 } from './function_args';
 
 import type { NearWallet } from './near-wallet';
@@ -104,6 +105,16 @@ export async function get_company_details(
 		methodName: 'get_company_details',
 		args
 	})) as Option<JsonCompany>;
+}
+
+export async function has_company_requested_verification(
+	this: NearWallet,
+	args: has_company_requested_verification_args
+): Promise<boolean> {
+	return (await this.viewMethod({
+		methodName: 'has_company_requested_verification',
+		args
+	})) as boolean;
 }
 
 export async function get_pending_companies_list(

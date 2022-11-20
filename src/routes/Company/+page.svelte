@@ -86,7 +86,7 @@
 	}
 
 	//TODO: Change implementation THIS LATER ASAP
-	const onFileSelected = (e) => {
+	const onFileSelected = (e: any) => {
 		let image = e.target.files[0];
 		let reader = new FileReader();
 		// console.log('read', reader);

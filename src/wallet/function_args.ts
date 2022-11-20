@@ -53,6 +53,10 @@ export type get_company_details_args = {
 	account_id: AccountId;
 };
 
+export type has_company_requested_verification_args = {
+	account_id: AccountId;
+};
+
 export type get_pending_companies_list_args = {
 	from_index: Option<U128>;
 	limit: Option<u64>;

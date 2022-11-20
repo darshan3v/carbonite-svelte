@@ -42,6 +42,7 @@ export type viewMethods =
 	| 'get_owner'
 	| 'get_recognised_skills_list'
 	| 'get_company_details'
+	| 'has_company_requested_verification'
 	| 'get_pending_companies_list'
 	| 'get_whitelisted_companies_list'
 	| 'get_approved_ft_tokens_list'

@@ -3,7 +3,7 @@ import { nearWallet, setupWallet, walletConfig } from '$src/wallet/wallet';
 
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ url }) => {
 	if (browser) {
 		const privateKey: string = localStorage.getItem('companyPrivateKey') ?? '';
 		const accountId: string | null = localStorage.getItem('carboniteCompanyAccountId');
@@ -14,6 +14,10 @@ export const load: PageLoad = async () => {
 
 		await setupWallet(walletConfig);
 		console.log(accountId);
+
+		const err_msg = url.searchParams.get('errorMessage');
+		console.log(err_msg);
+
 		// url/?errorCode=Error&errorMessage=%257B%2522index%2522%253A0%252C%	check for error and handle
 
 		const company = await nearWallet.get_company_details({
@@ -36,5 +40,7 @@ export const load: PageLoad = async () => {
 
 			open(account_import_url);
 		}
+
+		// show that the company reg is pending
 	}
 };
