@@ -84,6 +84,18 @@
 			console.log(error);
 		}
 	}
+
+	//TODO: Change implementation THIS LATER ASAP
+	const onFileSelected = (e) => {
+		let image = e.target.files[0];
+		let reader = new FileReader();
+		// console.log('read', reader);
+		reader.readAsDataURL(image);
+		reader.onload = (e: any) => {
+			company.icon = e.target.result;
+		};
+		// i think we can use reader.result
+	};
 </script>
 
 {#if Loading}
@@ -107,7 +119,14 @@
 		<div>
 			<!-- image picker , then convert image to data URI -->
 			<label for="icon">Company Icon</label>
-			<input type="text" id="icon" name="icon" bind:value={company.icon} />
+			<img src={company.icon} alt="company icon" />
+			<input
+				type="file"
+				id="icon"
+				name="icon"
+				on:change={(e) => onFileSelected(e)}
+				bind:value={company.icon}
+			/>
 		</div>
 
 		<div>
