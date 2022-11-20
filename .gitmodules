@@ -1,0 +1,4 @@
+[submodule "smart-contract"]
+	path = smart-contract
+	url = https://github.com/CarboniteClub/smart-contract
+	branch = development
