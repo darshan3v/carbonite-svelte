@@ -60,7 +60,7 @@
 				companies: companies
 			});
 
-			console.log('result',result);
+			console.log('result', result);
 		} catch (e) {
 			console.log('ERROR whitelist_companies(Array<AccountId>)', e);
 		}

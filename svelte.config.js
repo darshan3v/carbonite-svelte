@@ -13,9 +13,6 @@ const config = {
 			$src: 'src',
 			$static: 'static',
 		},
-		prerender: {
-			enabled: true
-		},
 	}
 };
 

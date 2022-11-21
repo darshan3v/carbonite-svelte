@@ -51,8 +51,7 @@
 	}
 
 	function add_task_in_near_token(task: Task) {
-
-		tasks.company_id = nearWallet.accountId ?? '';		// won't be null since route protection will handle it
+		tasks.company_id = nearWallet.accountId ?? ''; // won't be null since route protection will handle it
 
 		console.log('add_task_in_near_token', task);
 		nearWallet.add_task_in_near_token({

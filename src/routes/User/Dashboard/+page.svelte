@@ -82,7 +82,7 @@
 {#await tasklist}
 	<p>loading...</p>
 {:then tasks}
-<!-- Make proper checks for if accept invite is possible or not -->
+	<!-- Make proper checks for if accept invite is possible or not -->
 	<!-- check each task state and seprate them in seprate groups  
 			task.task.task_state = 'Open' | 'Pending' | 'Completed' | 'Expired' | 'Overdue' | 'Payed'; -->
 	{#each ['Open', 'Pending', 'Completed', 'Expired', 'Overdue', 'Payed'] as state}
@@ -107,7 +107,9 @@
 				<h4>Task Details</h4>
 				<div>{JSON.stringify(task.task.task_details)}</div>
 
-				<button on:click={async() => console.log(await nearWallet.accept_invite({ task_id: task.task_id }))}
+				<button
+					on:click={async () =>
+						console.log(await nearWallet.accept_invite({ task_id: task.task_id }))}
 					>Accept Invite</button
 				>
 			{/if}
