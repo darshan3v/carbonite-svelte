@@ -48,7 +48,7 @@ export function is_carbonite_company_acc(accountId: AccountId) {
 	const company_name = accountId.slice(0, accountId.indexOf('.'));
 	const subaccount = accountId.slice(accountId.indexOf('.') + 1);
 
-	return company_name.endsWith('-Co') && subaccount === TESTNET_CONTRACT_ID;
+	return company_name.endsWith('-co') && subaccount === TESTNET_CONTRACT_ID;
 }
 
 export async function doesAccountExist(account_id: AccountId) {
